@@ -75,3 +75,13 @@ int main()
    s1.display();
    cout<<"the size of the stack is "<<s1.StackSize();
 }
+
+
+output
+12 is pushed successfully
+2 is pushed successfully
+5 is pushed successfully
+2	 is on the top of stack 
+the elements in the stack are 
+2 12 
+the size of the stack is 2
