@@ -1,0 +1,45 @@
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include<stack>
+using namespace std;
+bool balancecheck(string);
+bool checkpair(char,char);
+
+bool checkpair(char val1,char val2)
+{
+    return ((val1=='{' && val2=='}') ||(val1=='[' && val2==']') || (val1=='(' && val2==')'));
+}
+
+bool balancecheck(string exp)
+{  
+    stack<char> s;
+    for(int i=0;i< exp.length();i++)
+    {
+        if(exp[i]=='{' || exp[i]=='[' || exp[i]=='{')
+        {
+            s.push(exp[i]);
+        }
+        else
+        {
+            if(s.empty())
+                return false;
+            else  if(checkpair(s.top(),exp[i]))
+                {
+                    s.pop();
+                    continue;
+                }
+            return false;
+        }
+    }
+   return s.empty();
+}
+
+int main() {
+  string str ="{}";
+  balancecheck(str)?cout<<"balanced":cout<<"not balanced";
+}
+
+
+
+output
+balanced
