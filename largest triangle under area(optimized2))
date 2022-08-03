@@ -1,0 +1,41 @@
+// Online C++ compiler to run C++ program online
+#include <iostream>
+using namespace std;
+#include<stack>
+int MaxCount(int arr[],int n)
+{
+    stack<int>s;
+    int res=0;
+    int top_index,curr;
+    for(int i=0;i<n;i++)
+    {
+        while(s.empty()==false && arr[s.top()]>=arr[i])
+        {
+            top_index =s.top();
+            s.pop();
+            curr =arr[top_index] *(s.empty()?i:i-s.top()-1);
+            res =max(res,curr);
+        }
+        s.push(i);
+    }
+    while(s.empty()==false)
+    {
+        top_index =s.top();
+        s.pop();
+        curr =arr[top_index]*(s.empty()?n:n-s.top()-1);
+        res =max(res,curr);
+    }
+    
+    return res;
+}
+int main() {
+    int arr[]={12,4,5,5,1,5,7};
+    int n =sizeof(arr)/sizeof(arr[0]);
+    cout<<MaxCount(arr,n);
+
+    return 0;
+}
+
+
+o/p
+16
