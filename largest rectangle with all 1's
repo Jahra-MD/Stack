@@ -1,0 +1,60 @@
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include<stack>
+#define C 4
+#define R 4
+using namespace std;
+int GreaterRowHist(int arr[],int n)
+{
+    stack<int>s;
+    int top_index;
+    int curr;
+    int res=0;
+    for(int i=0;i<n;i++)
+    { 
+        while(s.empty()==false && arr[s.top()]>=arr[i])
+        {
+            top_index =s.top();
+            s.pop();
+            curr =arr[top_index]*(s.empty()?i:i-s.top()-1);
+            res =max(res,curr);
+        }
+        s.push(i);
+    }
+    while(s.empty()==false)
+    {
+            top_index =s.top();
+            s.pop();
+            curr =arr[top_index]*(s.empty()?n:n-s.top()-1);
+            res =max(res,curr);
+        
+    }
+    return res;
+}
+int MaxRect(int mat[][C])
+{
+    int res =GreaterRowHist(mat[0],C);
+    for(int i=1;i<R;i++)
+    {
+        for(int j=0;j<C;j++)
+        {
+            if(mat[i][j])
+            {
+                mat[i][j]+=mat[i-1][j];
+            }
+            res =max(res,GreaterRowHist(mat[i],C));
+        }
+    }
+    return res;
+}
+int main() {
+   int m[][C]={  {0,1,1,0},
+                 {1,1,1,1},
+                 {1,1,1,1},
+                 {1,1,0,0}};
+  cout<<MaxRect(m);
+}
+
+
+o/p
+8
