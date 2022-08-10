@@ -1,0 +1,85 @@
+/* RULES
+        1.if operand then print it.
+        2.else if '(' occurs push it on to the stack
+        3.else if ')' occurs pop and print the character until ')' encounters
+        3.else if operator occurs
+                       -pop unit the character in stack has lesser precendence than this operator
+*/
+
+source code
+// Online C++ compiler to run C++ program online
+#include <iostream>
+#include<stack>
+using namespace std;
+int isoperand(char ch)
+{
+    return ((ch>='a' && ch<='z')||(ch>='A' && ch<='Z'));
+}
+int precendenceCheck(char ch)
+{
+    switch(ch)
+    {
+        case '+':
+        case '-':
+                 return 1;
+        case '*':
+        case '/':
+                 return 2;
+        case '^':
+                return 3;
+    }
+    return -1;
+}
+
+int ConvertInfixToPostfix(char* exp)
+{
+    stack<int>s;
+    int i,j;
+    for(i=0,j=-1;exp[i];++i)
+    {
+       if(isoperand(exp[i]))
+          exp[++j]=exp[i];
+        else if(exp[i]=='(')
+             s.push(exp[i]);
+        else
+           if(exp[i]==')')
+           {
+               while(!s.empty() && s.top()!='(')
+               {
+                   exp[++j]=s.top();
+                   s.pop();
+               }
+               if(!s.empty() && s.top()!='(')
+                 return -1;
+                else
+                    s.pop();
+           }
+           else{
+               while(!s.empty() &&(precendenceCheck(exp[i])<=precendenceCheck(s.top())))
+               {
+                   exp[++j]=s.top();
+                   s.pop();
+               }
+               s.push(exp[i]);
+           }
+    }
+    while(!s.empty())
+    {
+        exp[++j]=s.top();
+        s.pop();
+    }
+    exp[++j]='\0';
+    cout<<exp;
+}
+
+int main() {
+    char exp[]="a+b*(c^d-e)^(f+g*h)-i";
+    cout<<"the resultant expression after converting to postfix is \n";
+    ConvertInfixToPostfix(exp);
+    return 0;
+}
+
+
+o/p
+the resultant expression after converting to postfix is 
+abcd^e-fgh*+^*+i-
